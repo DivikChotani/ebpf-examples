@@ -1,0 +1,6 @@
+tracepoint:syscalls:sys_enter_openat,
+tracepoint:syscalls:sys_enter_close
+/pid == $target/
+{
+  printf("SYSCALL: %s by %s (PID %d)\n", probe, comm, pid);
+}
