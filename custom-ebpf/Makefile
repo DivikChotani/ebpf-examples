@@ -1,7 +1,10 @@
-CLANG=clang
-CFLAGS=-O2 -g -Wall -target bpf \
-  -I/usr/include \
-  -I/usr/src/linux-headers-$(shell uname -r)/include
+CLANG ?= clang
+CFLAGS = -g -O2 -target bpf -D__TARGET_ARCH_x86 -I. 
 
-all:
-	$(CLANG) $(CFLAGS) -c openat_trace.c -o openat_trace.o
+all: openat_trace.o
+
+openat_trace.o: openat_trace.c vmlinux.h
+	$(CLANG) $(CFLAGS) -c $< -o $@
+
+clean:
+	rm -f *.o
